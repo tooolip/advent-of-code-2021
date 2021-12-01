@@ -2,7 +2,8 @@
 
 [![Rust](https://github.com/zachschickler/advent-of-code-2021/actions/workflows/rust.yml/badge.svg)](https://github.com/zachschickler/advent-of-code-2021/actions/workflows/rust.yml)
 [![Stars](https://img.shields.io/github/stars/zachschickler/advent-of-code-2021.svg)](https://img.shields.io/github/zachschickler/advent-of-code-2021.svg)
-[![](https://img.shields.io/github/license/zachschickler/advent-of-code-2021.svg)](https://img.shields.io/github/license/zachschickler/advent-of-code-2021.svg)
+[![License](https://img.shields.io/github/license/zachschickler/advent-of-code-2021.svg)](https://img.shields.io/github/license/zachschickler/advent-of-code-2021.svg)
+[![Day](https://img.shields.io/badge/day-1-red)](https://img.shields.io/badge/day-1-red)
 
 This repository contains my solutions to the Advent of Code 2021 challenges. All problems will be done in Rust.
 
