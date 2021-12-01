@@ -7,66 +7,64 @@ pub enum Error {
     ParseIntError(std::num::ParseIntError),
 }
 
-pub struct Solution;
+pub struct Solution { vals: Vec<i32> }
 
 impl Solution {
-    pub fn solve_part1(filename: &str) -> Result<i32, Error> {
+    pub fn new() -> Self {
+        Self { vals: Vec::new() }
+    }
 
-        let file = match File::open(filename) {
-            Ok(f) => f,
-            Err(e) => return Err(Error::IoError(e)),
-        };
+    pub fn read_file(&mut self, filename: &str) {
+        let file = File::open(filename).expect("Problem encountered opening file.");
         let reader = BufReader::new(file);
 
-        let mut counter = 0;
-        let mut last_val = -1;
         for (_index, line) in reader.lines().enumerate() {
+            let line = line.expect("Problem encountered unpacking line.");
+            let val = line.parse::<i32>().expect("Could not parse line as number.");
+            self.vals.push(val);
+        };
+    }
 
-            let val = match line {
-                Ok(v) => v,
-                Err(e) => return Err(Error::IoError(e)),
-            };
-            let val = match val.parse::<i32>() {
-                Ok(v) => v,
-                Err(e) => return Err(Error::ParseIntError(e)),
-            };
+    pub fn solve_full(&self) -> (i32, i32) {
+        (self.solve_part1(), self.solve_part2())
+    }
 
-            if val > last_val && last_val != -1 {
+    pub fn solve_part1(&self) -> i32 {
+        let mut counter: i32 = 0;
+        let mut last_val: i32 = -1;
+
+        for val in &self.vals {
+            // Additional check: first value means no increment.
+            if val > &last_val && last_val != -1 {
                 counter += 1;
             }
 
-            last_val = val;
+            last_val = *val;
         }
 
-        Ok(counter)
+        counter
     }
 
-    pub fn solve_part2(filename: &str) -> Result<i32, &'static str> {
+    pub fn solve_part2(&self) -> i32 {
+        let mut counter: i32 = 0;
+        let mut last_three_vals: Vec<i32> = Vec::with_capacity(3);
 
-        let file = File::open(filename).unwrap();
-        let reader = BufReader::new(file);
+        for (idx, val) in self.vals.iter().enumerate() {
+            // Check: last_three_vals is fully populated before first use.
+            if idx > 2 {
+                let sum_a: i32 = last_three_vals.iter().sum();
+                // Neat shortcut, instead of bulky vector accesses, just subtract 1st value from sum_a to get sum of 2nd and 3rd.
+                let sum_b: i32 = sum_a + val - last_three_vals.first().expect("Vector seems empty.");
 
-        let mut counter = 0;
-        let mut last_three_vals = Vec::with_capacity(3);
-        for (index, line) in reader.lines().enumerate() {
-
-            let val = line.unwrap().parse::<i32>().unwrap();
-
-            if index > 2 {
-                let sum_a: i32 = last_three_vals.clone().iter().sum();
-                let sum_b: i32 = last_three_vals.clone().into_iter().nth(1).unwrap() + last_three_vals.clone().into_iter().nth(2).unwrap() + val;
-
-                if sum_b > sum_a {
-                    counter += 1;
-                }
-    
+                if sum_b > sum_a { counter += 1; }
+                
                 last_three_vals.remove(0);
             }
-            
-            last_three_vals.push(val);
+
+            last_three_vals.push(*val);
         }
 
-        Ok(counter)
+        counter
     }
 }
 
@@ -76,13 +74,28 @@ mod tests {
 
     #[test]
     fn part_one() {
-        let result = Solution::solve_part1("../../test_inputs/day1.txt").unwrap();
+        let mut solution = Solution::new();
+        solution.read_file("../../test_inputs/day1.txt");
+        let result = solution.solve_part1();
+
         assert_eq!(result, 7);
     }
 
     #[test]
     fn part_two() {
-        let result = Solution::solve_part2("../../test_inputs/day1.txt");
-        assert_eq!(result, Ok(5));
+        let mut solution = Solution::new();
+        solution.read_file("../../test_inputs/day1.txt");
+        let result = solution.solve_part2();
+
+        assert_eq!(result, 5);
+    }
+
+    #[test]
+    fn both_parts() {
+        let mut solution = Solution::new();
+        solution.read_file("../../test_inputs/day1.txt");
+        let result = solution.solve_full();
+
+        assert_eq!(result, (7,5));
     }
 }

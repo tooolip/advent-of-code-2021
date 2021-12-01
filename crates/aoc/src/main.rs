@@ -1,12 +1,28 @@
-fn main() {
-    let day1_part1_solution = aoc_lib::day1::Solution::solve_part1("../inputs/day1.txt");
-    match day1_part1_solution {
-        Ok(v) => println!("1.1: {}", v),
-        Err(e) => println!("Error: {:?}", e),
-    }
-    let day1_part2_solution = aoc_lib::day1::Solution::solve_part2("../inputs/day1.txt");
-    match day1_part2_solution {
-        Ok(v) => println!("1.2: {}", v),
-        Err(e) => println!("Error: {}", e),
+use std::io::{self, Write};
+
+fn main()  {
+    const DAY: i32 = 2;
+
+    let stdin = io::stdin();
+    let mut stdout = io::stdout();
+    let mut input = String::new();
+
+    write!(stdout, "Select day: ").expect("Problem encountered writing to stdout.");
+    stdout.flush().expect("Problem encountered flushing stdout.");
+
+    stdin.read_line(&mut input).expect("Problem encountered reading line.");
+    let day = input.trim().parse::<i32>().expect("Input is not a number.");
+
+    match day {
+        1 => {
+            let mut solution = aoc_lib::day1::Solution::new();
+            solution.read_file("../inputs/day1.txt");
+            let result = solution.solve_full();
+            println!("{}, {}", result.0, result.1);
+        },
+        2 => {
+            println!("Day 2 is coming!");
+        },
+        _ => println!("Invalid input: {}. Try a number 1-{}!", day, DAY),
     }
 }
