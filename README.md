@@ -1,6 +1,7 @@
 # Advent of Code 2021
 
 [![Rust](https://github.com/zachschickler/advent-of-code-2021/actions/workflows/rust.yml/badge.svg)](https://github.com/zachschickler/advent-of-code-2021/actions/workflows/rust.yml)
+[![Stars](https://img.shields.io/github/stars/{username}/{repo-name}.svg)](https://img.shields.io/github/stars/{username}/{repo-name}.svg)
 
 This repository contains my solutions to the Advent of Code 2021 challenges. All problems will be done in Rust.
 
