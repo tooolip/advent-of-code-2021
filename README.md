@@ -10,7 +10,7 @@ This repository holds two crates, **aoc** and **aoc-lib**, which contain the dri
 
 ## How to Run
 
-In case you are new to [Cargo]{https://doc.rust-lang.org/cargo/}, I have provided some commands to try this project out yourself.
+In case you are new to [Cargo](https://doc.rust-lang.org/cargo/), I have provided some commands to try this project out yourself.
 
 To run the binary:
 ```
