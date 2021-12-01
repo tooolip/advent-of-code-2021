@@ -1,12 +1,6 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
-#[derive(Debug)]
-pub enum Error {
-    IoError(std::io::Error),
-    ParseIntError(std::num::ParseIntError),
-}
-
 pub struct Solution { vals: Vec<i32> }
 
 impl Solution {
