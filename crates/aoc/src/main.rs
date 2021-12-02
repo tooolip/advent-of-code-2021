@@ -16,17 +16,15 @@ fn main()  {
     match day {
         1 => {
             let mut solution = aoc_lib::day1::Solution::new();
-            solution.read_file("../inputs/day1.txt");
+            solution.read_file("inputs/day1.txt");
             let result = solution.solve_full();
             println!("{}, {}", result.0, result.1);
         },
         2 => {
             let mut solution = aoc_lib::day2::Solution::new();
-            solution.read_file("../inputs/day2.txt");
-            let result = solution.solve_part1();
-            println!("{}", result);
-            //let result = solution.solve_full();
-            //println!("{}, {}", result.0, result.1);
+            solution.read_file("inputs/day2.txt");
+            let result = solution.solve_full();
+            println!("{}, {}", result.0, result.1);
         },
         _ => println!("Invalid input: {}. Try a number 1-{}!", day, DAY),
     }

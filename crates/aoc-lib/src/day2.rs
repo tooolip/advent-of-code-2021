@@ -1,11 +1,17 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
-pub struct Solution { vals: Vec<i32> }
+pub struct Solution {
+    instrs: Vec<String>,
+    vals: Vec<i32>,
+}
 
 impl Solution {
     pub fn new() -> Self {
-        Self { vals: Vec::new() }
+        Self {
+            instrs: Vec::new(),
+            vals: Vec::new(),
+        }
     }
 
     pub fn read_file(&mut self, filename: &str) {
@@ -14,7 +20,11 @@ impl Solution {
 
         for (_index, line) in reader.lines().enumerate() {
             let line = line.expect("Problem encountered unpacking line.");
-            let val = line.parse::<i32>().expect("Could not parse line as number.");
+            let mut line: Vec<&str> = line.split(" ").collect();
+            let instr: String = line.iter().nth(0).unwrap().to_string();
+            let val = line.iter().nth(1).unwrap().parse::<i32>().expect("Could not parse line as number.");
+
+            self.instrs.push(instr);
             self.vals.push(val);
         };
     }
@@ -24,11 +34,40 @@ impl Solution {
     }
 
     pub fn solve_part1(&self) -> i32 {
-        0
+        let mut position: (i32, i32) = (0, 0);
+
+        for (idx, instr) in self.instrs.iter().enumerate() {
+            match instr.as_str() {
+                "forward" => position.0 = position.0 + self.vals.iter().nth(idx).unwrap(),
+                "up" => position.1 = position.1 - self.vals.iter().nth(idx).unwrap(),
+                "down" => position.1 = position.1 + self.vals.iter().nth(idx).unwrap(),
+                _ => { println!("Error command not recognized."); },
+            }
+        }
+
+        position.0 * position.1
     }
 
     pub fn solve_part2(&self) -> i32 {
-        0
+        let mut position: (i32, i32, i32) = (0, 0, 0);
+
+        for (idx, instr) in self.instrs.iter().enumerate() {
+            match instr.as_str() {
+                "forward" => {
+                    position.0 = position.0 + self.vals.iter().nth(idx).unwrap();
+                    position.1 = position.1 + (position.2 * self.vals.iter().nth(idx).unwrap());
+                },
+                "up" => {
+                    position.2 = position.2 - self.vals.iter().nth(idx).unwrap();
+                },
+                "down" => {
+                    position.2 = position.2 + self.vals.iter().nth(idx).unwrap();
+                },
+                _ => { println!("Error command not recognized."); },
+            }
+        }
+
+        position.0 * position.1
     }
 }
 
@@ -42,7 +81,7 @@ mod tests {
         solution.read_file("../../test_inputs/day2.txt");
         let result = solution.solve_part1();
 
-        assert_eq!(result, 0);
+        assert_eq!(result, 150);
     }
 
     #[test]
@@ -51,7 +90,7 @@ mod tests {
         solution.read_file("../../test_inputs/day2.txt");
         let result = solution.solve_part2();
 
-        assert_eq!(result, 0);
+        assert_eq!(result, 900);
     }
 
     #[test]
@@ -60,6 +99,6 @@ mod tests {
         solution.read_file("../../test_inputs/day2.txt");
         let result = solution.solve_full();
 
-        assert_eq!(result, (0,0));
+        assert_eq!(result, (150,900));
     }
 }
