@@ -20,7 +20,7 @@ impl Solution {
 
         for (_index, line) in reader.lines().enumerate() {
             let line = line.expect("Problem encountered unpacking line.");
-            let mut line: Vec<&str> = line.split(" ").collect();
+            let line: Vec<&str> = line.split(" ").collect();
             let instr: String = line.iter().nth(0).unwrap().to_string();
             let val = line.iter().nth(1).unwrap().parse::<i32>().expect("Could not parse line as number.");
 
